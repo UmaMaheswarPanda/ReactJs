@@ -48,17 +48,20 @@ function CreateUser() {
   const handleParentCheckboxChange = (dropdownId) => {
     const dropdownOptions = getDropdownOptionsById(dropdownId);
     const allOptionIds = dropdownOptions.map((option) => option.id);
-    const isAllOptionsSelected = allOptionIds.every((optionId) => selectedOptions[dropdownId]?.includes(optionId));
+    const isAllOptionsSelected = allOptionIds.every((optionId) =>
+      selectedOptions[dropdownId]?.includes(optionId)
+    );
 
     if (isAllOptionsSelected) {
-      setSelectedOptions((prevState) => ({
-        ...prevState,
-        [dropdownId]: selectedOptions[dropdownId]?.filter((optionId) => !allOptionIds.includes(optionId)),
-      }));
+      setSelectedOptions((prevState) => {
+        const newSelectedOptions = { ...prevState };
+        delete newSelectedOptions[dropdownId];
+        return newSelectedOptions;
+      });
     } else {
       setSelectedOptions((prevState) => ({
         ...prevState,
-        [dropdownId]: [...selectedOptions[dropdownId] || [], ...allOptionIds],
+        [dropdownId]: allOptionIds,
       }));
     }
   };
@@ -68,9 +71,10 @@ function CreateUser() {
       const prevSelectedOptions = prevState[dropdownId] || [];
       const index = prevSelectedOptions.indexOf(optionId);
       if (index > -1) {
+        const newSelectedOptions = prevSelectedOptions.filter((id) => id !== optionId);
         return {
           ...prevState,
-          [dropdownId]: prevSelectedOptions.filter((id) => id !== optionId),
+          [dropdownId]: newSelectedOptions.length > 0 ? newSelectedOptions : undefined,
         };
       } else {
         return {
@@ -88,6 +92,7 @@ function CreateUser() {
 
   return (
     <div className="my-custom-container">
+      <h2 className="my-heading">Select Permissions to Assign</h2>
       {dropdownOptions.map((dropdown) => (
         <div key={dropdown.id}>
           <button className="my-button" onClick={() => toggleDropdown(dropdown.id)}>
@@ -95,27 +100,11 @@ function CreateUser() {
           </button>
           {dropdownStates[dropdown.id] && (
             <div className="my-dropdown-content">
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    className="my-checkbox"
-                    style={{ width: "20px" }}
-                    checked={
-                      selectedOptions[dropdown.id]?.length ===
-                      getDropdownOptionsById(dropdown.id).length
-                    }
-                    onChange={() => handleParentCheckboxChange(dropdown.id)}
-                  />
-                  Select All
-                </label>
-              </div>
-              {getDropdownOptionsById(dropdown.id).map((option) => (
+              {dropdown.options.map((option) => (
                 <div key={option.id}>
                   <label>
                     <input
                       type="checkbox"
-                      className="my-checkbox"
                       checked={selectedOptions[dropdown.id]?.includes(option.id)}
                       onChange={() => handleChildCheckboxChange(dropdown.id, option.id)}
                     />
@@ -127,6 +116,27 @@ function CreateUser() {
           )}
         </div>
       ))}
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={Object.values(selectedOptions).flat().length === dropdownOptions.flatMap((d) => d.options).length}
+            onChange={() => {
+              if (Object.values(selectedOptions).flat().length === dropdownOptions.flatMap((d) => d.options).length) {
+                setSelectedOptions({});
+              } else {
+                setSelectedOptions(
+                  dropdownOptions.reduce((acc, dropdown) => {
+                    acc[dropdown.id] = dropdown.options.map((option) => option.id);
+                    return acc;
+                  }, {})
+                );
+              }
+            }}
+          />
+          Select All
+        </label>
+      </div>
     </div>
   );
 }
