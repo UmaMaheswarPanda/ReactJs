@@ -20,6 +20,7 @@ export default class Counter extends Component {
             count:this.state.count-1
         })
     }
+    
   render() {
     return (
       <div>

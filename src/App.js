@@ -4,7 +4,9 @@ import './Style.css'
 import Counter from './components/Counter';
 import CreateUser from './components/CreateUser';
 import Navbar from './components/Navbar';
+import ParentComponent from './components/ParentComponent';
 import TextForm from './components/TextForm';
+import UserGreeting from './components/UserGreeting';
 import YourComponent from './components/YourComponent';
 import YourFormComponent from './components/YourComponent';
 
@@ -18,7 +20,9 @@ function App() {
       <CreateUser/> */}
       {/* <YourFormComponent/> */}
       {/* <YourComponent/> */}
-      <Counter/>
+      {/* <Counter/> */}
+      {/* <ParentComponent/> */}
+      <UserGreeting/>
     </div>
          
          // <Navbar/>
