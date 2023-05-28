@@ -3,6 +3,7 @@ import './App.css';
 import './Style.css'
 import Counter from './components/Counter';
 import CreateUser from './components/CreateUser';
+import NameList from './components/NameList';
 import Navbar from './components/Navbar';
 import ParentComponent from './components/ParentComponent';
 import TextForm from './components/TextForm';
@@ -22,7 +23,8 @@ function App() {
       {/* <YourComponent/> */}
       {/* <Counter/> */}
       {/* <ParentComponent/> */}
-      <UserGreeting/>
+      {/* <UserGreeting/> */}
+      <NameList/>
     </div>
          
          // <Navbar/>
