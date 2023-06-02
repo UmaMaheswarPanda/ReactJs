@@ -10,9 +10,12 @@ import Hero from "./LifeCyclesAndFragments/Hero";
 import ErrorBoundary from "./LifeCyclesAndFragments/ErrorBoundary";
 import ClickCounter from "./HocContext/ClickCounter";
 import HoverCounter from "./HocContext/HoverCounter";
+import FeeProgramCreate from "./components/FeeProgramCreate";
+import { UserProvider } from "./HocContext/UserContext";
+import ComponentC from "./HocContext/ComponentC";
 // import Form from './components/Form';
 // import MountingLifeCycleA from './components/MountingLifeCycleA';
-// import Counter from './components/Counter';
+import Counter from './components/Counter';
 // import CreateUser from './components/CreateUser';
 // import NameList from './components/NameList';
 // import Navbar from './components/Navbar';
@@ -52,6 +55,11 @@ function App() {
       </ErrorBoundary> */}
       <ClickCounter name='Sumit'/>
       <HoverCounter name='Sumit'/>
+      {/* <FeeProgramCreate/> */}
+      {/* <UserProvider value="Sumit">
+        <ComponentC/>
+      </UserProvider> */}
+      
     </div>
 
     // <Navbar/>
